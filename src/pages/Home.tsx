@@ -3,6 +3,8 @@ import { Box, Typography } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import "./Home.css";
 import MainPage from "../components/landingPage/LandingPage";
+import ParallaxFeature from "../components/landingPage/ParallaxFeature";
+import ScrollVines from "../components/landingPage/ScrollVines";
 
 const Home = () => {
   const [showText, setShowText] = useState(true);
@@ -168,6 +170,34 @@ const Home = () => {
             </motion.div>
           )}
         </AnimatePresence>
+      </Box>
+      <Box sx={{ backgroundColor: "black", position: "relative", zIndex: 30 }}>
+        <ScrollVines />
+        <ParallaxFeature
+          numberTag="01"
+          subtitle="Spatial Exploration"
+          title="The Interactive Legacy Tree"
+          description="Navigate your ancestry in a stunning, interactive spatial map. Click on any relative to instantly pull up curated photo galleries, historical documents, and connected family branches."
+          reverse={false}
+        />
+
+        <ParallaxFeature
+          numberTag="02"
+          subtitle="Private AI Retrieval"
+          title="The 'Roots' Assistant"
+          description="Stop digging through chaotic text threads and dusty boxes. Simply ask our AI questions like 'Where did Great-Grandpa Joe grow up?' and get instant answers sourced exclusively from your private family archives."
+          reverse={true}
+        />
+
+        <ParallaxFeature
+          numberTag="03"
+          subtitle="Event Logistics"
+          title="Seamless Reunion Check-In"
+          description="Organize the family without the headache. Unified commerce handles RSVPs, dues, and T-shirt orders in one transaction, automatically generating instant QR codes for a frictionless welcome desk experience."
+          reverse={false}
+        />
+
+        <Box sx={{ height: "20vh" }} />
       </Box>
     </>
   );

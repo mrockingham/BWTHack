@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import TreeGradiantBackground from "./TreeGradiantBackground";
 import { Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
@@ -7,6 +7,34 @@ import FloatingPictures from "./FloatingPictures";
 
 const LandingPage = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [autoPos, setAutoPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    let animationFrameId: number;
+    const animate = () => {
+      const time = Date.now() / 2000;
+      setAutoPos({
+        x: Math.sin(time) * 0.4,
+        y: Math.cos(time * 0.8) * 0.4,
+      });
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    animate();
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      setMousePos({ x, y });
+    };
+
+    window.addEventListener("mousemove", handleGlobalMouseMove);
+
+    return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
+  }, []);
 
   const popAnimation = (delay: number) => ({
     initial: { opacity: 0, scale: 0.3, y: 30 },
@@ -19,21 +47,18 @@ const LandingPage = () => {
     },
   });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const x = (e.clientX / window.innerWidth) * 2 - 1;
-    const y = (e.clientY / window.innerHeight) * 2 - 1;
-    setMousePos({ x, y });
-  };
-
   const getDynamicRotation = (baseRotation: string) => {
-    const tiltX = -mousePos.y * 35;
-    const tiltY = mousePos.x * 35;
+    const totalX = mousePos.x + autoPos.x;
+    const totalY = mousePos.y + autoPos.y;
+
+    const tiltX = -totalY * 25;
+    const tiltY = totalX * 25;
 
     return `${baseRotation} rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
   };
 
   return (
-    <Box onMouseMove={handleMouseMove} sx={{ width: "100%" }}>
+    <Box sx={{ minHeight: "100vh", width: "100%" }}>
       <Box
         sx={{
           padding: 4,
@@ -51,6 +76,7 @@ const LandingPage = () => {
               textAlign: "center",
               letterSpacing: "1px",
               mb: 1,
+              mt: 6,
             }}
           >
             Your Living Archive
@@ -89,7 +115,7 @@ const LandingPage = () => {
             <motion.div {...popAnimation(2.5)}>
               <FloatingPictures
                 left="215px"
-                top="-20px"
+                top="-40px"
                 rotation={getDynamicRotation("rotate(-5deg)")}
               />
             </motion.div>
