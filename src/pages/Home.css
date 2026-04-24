@@ -1,0 +1,30 @@
+
+.banner.ink-active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  
+  background-image: url('/colorful.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+
+  -webkit-mask-image: url('/slide2-speed.gif');
+  mask-image: url('/slide2-speed.gif');
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center;
+  mask-position: center;
+
+
+  clip-path: circle(150% at 50% 50%);
+  -webkit-clip-path: circle(150% at 50% 50%);
+
+  transition: clip-path 4s ease-in-out, -webkit-clip-path 4s ease-in-out; 
+}
+
+
+.banner.shrink-active::before {
+  clip-path: circle(0% at 50% 50%);
+  -webkit-clip-path: circle(0% at 50% 50%);
+}
