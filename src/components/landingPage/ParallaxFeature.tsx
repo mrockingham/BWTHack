@@ -56,7 +56,8 @@ const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
               sx={{
                 fontSize: "5rem",
                 fontWeight: 900,
-                color: "rgba(255,255,255,0.05)",
+                color: "rgba(250, 250, 250, 0.14)",
+                // color: "rgba(255,255,255,0.05)",
                 lineHeight: 0.8,
                 mb: -2,
                 ml: -1,
