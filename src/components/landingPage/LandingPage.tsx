@@ -76,7 +76,7 @@ const LandingPage = () => {
               textAlign: "center",
               letterSpacing: "1px",
               mb: 1,
-              mt: 6,
+              mt: 15,
             }}
           >
             Your Living Archive
