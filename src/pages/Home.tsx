@@ -5,6 +5,7 @@ import "./Home.css";
 import MainPage from "../components/landingPage/LandingPage";
 import ParallaxFeature from "../components/landingPage/ParallaxFeature";
 import ScrollVines from "../components/landingPage/ScrollVines";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 
 const Home = () => {
   const [showText, setShowText] = useState(true);
@@ -13,11 +14,14 @@ const Home = () => {
   const [shrinkBackground, setShrinkBackground] = useState(false);
   const [showScrollTip, setShowScrollTip] = useState(false);
 
+  // NEW: State for the delayed header
+  const [showHeader, setShowHeader] = useState(false);
+
   useEffect(() => {
     const textTimer = setTimeout(() => setShowText(false), 3600);
     const inkTimer = setTimeout(() => setShowInk(true), 3300);
     const treeTimer = setTimeout(() => setShowTree(true), 4800);
-    // 4. Trigger the circle shrink
+    const headerTimer = setTimeout(() => setShowHeader(true), 9000); // Header slides in after tree
     const shrinkTimer = setTimeout(() => setShrinkBackground(true), 6500);
     const scrollTimer = setTimeout(() => setShowScrollTip(true), 8000);
 
@@ -25,6 +29,7 @@ const Home = () => {
       clearTimeout(textTimer);
       clearTimeout(inkTimer);
       clearTimeout(treeTimer);
+      clearTimeout(headerTimer);
       clearTimeout(shrinkTimer);
       clearTimeout(scrollTimer);
     };
@@ -32,20 +37,39 @@ const Home = () => {
 
   return (
     <>
+      {/* LAYER 0: The Delayed Navigation Header */}
+      <AnimatePresence>
+        {showHeader && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            style={{
+              position: "fixed",
+              top: 0,
+              width: "100vw",
+              zIndex: 100,
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)",
+              backdropFilter: "blur(4px)",
+            }}
+          >
+            <ResponsiveAppBar />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Box
         sx={{
           position: "relative",
-
           minHeight: "100vh",
           overflowX: "hidden",
-
           backgroundColor: !showTree ? "black" : "#2e413b",
           transition: "background-color 1.5s ease",
         }}
         className={`banner ${showInk ? "ink-active" : ""} ${shrinkBackground ? "shrink-active" : ""}`}
       >
         {/* LAYER 1: The Intro Text */}
-
         <AnimatePresence>
           {showText && (
             <motion.div
@@ -101,7 +125,6 @@ const Home = () => {
         </AnimatePresence>
 
         {/* LAYER 2: The Tree Reveal */}
-
         <AnimatePresence>
           {showTree && (
             <motion.div
@@ -124,6 +147,7 @@ const Home = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
         {/* LAYER 3: The Scroll Indicator */}
         <AnimatePresence>
           {showScrollTip && (
@@ -140,7 +164,6 @@ const Home = () => {
                 zIndex: 20,
               }}
             >
-              {/* This inner motion.div handles the infinite bounce */}
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{
@@ -179,6 +202,7 @@ const Home = () => {
           title="The Interactive Legacy Tree"
           description="Navigate your ancestry in a stunning, interactive spatial map. Click on any relative to instantly pull up curated photo galleries, historical documents, and connected family branches."
           reverse={false}
+          imageSrc="/familyTree.png"
         />
 
         <ParallaxFeature
@@ -187,6 +211,7 @@ const Home = () => {
           title="The 'Roots' Assistant"
           description="Stop digging through chaotic text threads and dusty boxes. Simply ask our AI questions like 'Where did Great-Grandpa Joe grow up?' and get instant answers sourced exclusively from your private family archives."
           reverse={true}
+          imageSrc="/familyReader.png"
         />
 
         <ParallaxFeature
@@ -195,6 +220,7 @@ const Home = () => {
           title="Seamless Reunion Check-In"
           description="Organize the family without the headache. Unified commerce handles RSVPs, dues, and T-shirt orders in one transaction, automatically generating instant QR codes for a frictionless welcome desk experience."
           reverse={false}
+          imageSrc="/familyCheckout.png"
         />
 
         <Box sx={{ height: "20vh" }} />

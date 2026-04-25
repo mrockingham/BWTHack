@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
+import FamilyTreeCanvas from "./components/FamilyTree/FamilyTreeCanvas";
+import Dues from "./pages/Dues";
+import Planner from "./pages/Planner";
 
 const App = () => {
   return (
@@ -8,6 +11,9 @@ const App = () => {
       <Routes>
         {/* The Landing Page (Root URL) */}
         <Route path="/" element={<Home />} />
+        <Route path="/tree" element={<FamilyTreeCanvas />} />
+        <Route path="/dues" element={<Dues />} />
+        <Route path="/planner" element={<Planner />} />
 
         {/* <Route path="/tree" element={<FamilyTree />} /> */}
         {/* <Route path="/login" element={<Login />} /> */}
