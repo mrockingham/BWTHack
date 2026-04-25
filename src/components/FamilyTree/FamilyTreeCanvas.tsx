@@ -190,7 +190,7 @@ const FamilyTreeCanvas = () => {
     setEdges((eds) => [...eds, newEdge]);
 
     try {
-      await fetch("http://localhost:5001/api/family", {
+      await fetch("https://bwthackbe.onrender.com/api/family", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -254,7 +254,9 @@ const FamilyTreeCanvas = () => {
     setIsPlannerOpen(true);
     setIsLoadingPlan(true);
     try {
-      const response = await fetch("http://localhost:5001/api/reunion-plan");
+      const response = await fetch(
+        "https://bwthackbe.onrender.com/api/reunion-plan",
+      );
       const data = await response.json();
       setReunionPlan(data.plan);
     } catch (error) {
@@ -500,7 +502,7 @@ const FamilyTreeCanvas = () => {
               onClick={async () => {
                 setIsSavingPlan(true);
                 try {
-                  await fetch("http://localhost:5001/api/plans", {
+                  await fetch("https://bwthackbe.onrender.com/api/plans", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     // Giving it a dynamic title based on the date
@@ -680,7 +682,7 @@ const FamilyTreeCanvas = () => {
                   setRecordingPhase("idle");
                   try {
                     const response = await fetch(
-                      `http://localhost:5001/api/family/${nodeId}/memory`,
+                      `https://bwthackbe.onrender.com/api/family/${nodeId}/memory`,
                       {
                         method: "PUT",
                         headers: { "Content-Type": "application/json" },
