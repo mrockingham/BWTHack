@@ -8,6 +8,7 @@ interface ParallaxFeatureProps {
   description: string;
   reverse?: boolean;
   numberTag: string;
+  imageSrc: string; // <-- 1. ADD NEW PROP HERE
 }
 
 const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
@@ -16,6 +17,7 @@ const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
   description,
   reverse = false,
   numberTag,
+  imageSrc, // <-- Destructure it here
 }) => {
   const containerRef = useRef(null);
 
@@ -25,7 +27,6 @@ const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
   });
 
   const textY = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
   const imageY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
@@ -51,13 +52,11 @@ const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
         >
           {/* --- TEXT SECTION --- */}
           <motion.div style={{ flex: 1, y: textY }}>
-            {/* Massive Watermark Number */}
             <Typography
               sx={{
                 fontSize: "5rem",
                 fontWeight: 900,
                 color: "rgba(250, 250, 250, 0.14)",
-                // color: "rgba(255,255,255,0.05)",
                 lineHeight: 0.8,
                 mb: -2,
                 ml: -1,
@@ -68,7 +67,7 @@ const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
 
             <Typography
               sx={{
-                color: "#97bb52",
+                color: "#75B06F", // Updated to match Heritage Theme
                 fontSize: "1rem",
                 fontWeight: 700,
                 letterSpacing: "2px",
@@ -107,29 +106,28 @@ const ParallaxFeature: React.FC<ParallaxFeatureProps> = ({
               justifyContent: "center",
             }}
           >
-            {/* The Colorful Placeholder Box */}
             <Box
               sx={{
                 width: "100%",
                 maxWidth: "500px",
                 height: "400px",
                 borderRadius: "24px",
-                backgroundImage: 'url("/colorful.jpg")',
+                backgroundImage: `url(${imageSrc})`, // <-- 2. INJECT IMAGE HERE
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 boxShadow: "0 30px 60px rgba(0,0,0,0.6)",
                 position: "relative",
-                // The dark overlay leaving just a vibrant edge
+                // 3. Adjusted overlay so the screenshot is fully visible and framed beautifully
                 "&::after": {
                   content: '""',
                   position: "absolute",
-                  inset: "4px",
-                  backgroundColor: "#161B07",
-                  borderRadius: "20px",
-                  opacity: 0.85,
+                  inset: "0px",
+                  backgroundColor: "rgba(0, 0, 0, 0.1)", // Light tint instead of heavy block
+                  borderRadius: "24px",
+                  border: "2px solid rgba(117, 176, 111, 0.5)", // Subtle green border
                 },
               }}
-            ></Box>
+            />
           </motion.div>
         </Box>
       </Container>
